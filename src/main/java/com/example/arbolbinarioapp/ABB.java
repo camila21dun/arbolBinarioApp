@@ -121,7 +121,6 @@ public class ABB {
         return resultado.toString().trim();
     }
 
-    // Construcción de árbol desde expresión algebraica
     public void construirDesdeExpresion(String expresion) {
         Stack<Nodo> pila = new Stack<>();
         for (char ch : expresion.toCharArray()) {

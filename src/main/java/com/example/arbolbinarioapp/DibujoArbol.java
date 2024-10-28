@@ -9,38 +9,41 @@ public class DibujoArbol extends Canvas {
 
     public DibujoArbol(ABB arbol) {
         this.arbol = arbol;
-        this.setWidth(800);
-        this.setHeight(1000);
+        this.setWidth(1000);  // Anchura ajustada para ver el árbol de manera horizontal
+        this.setHeight(800);  // Altura ajustada para espacio vertical entre nodos
     }
 
     public void dibujarArbol() {
         GraphicsContext gc = getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
         if (arbol.getRaiz() != null) {
-            dibujarNodo(gc, arbol.getRaiz(), getWidth() / 2, 30, 100);
+            // Comenzar a dibujar desde la posición inicial en la izquierda
+            dibujarNodo(gc, arbol.getRaiz(), 30, getHeight() / 2, 70); // Ajusta 70 para espacio entre nodos en X
         }
     }
 
-    private void dibujarNodo(GraphicsContext gc, Nodo nodo, double x, double y, double xOffset) {
+    private void dibujarNodo(GraphicsContext gc, Nodo nodo, double x, double y, double yOffset) {
         if (nodo == null) return;
 
         Color colorNodo = obtenerColorNodo(nodo);
         gc.setFill(colorNodo);
-        gc.fillOval(x - 15, y - 15, 30, 30);
+        gc.fillOval(x - 15, y - 15, 30, 30); // Dibuja el nodo como un círculo
         gc.setFill(Color.BLACK);
-        gc.fillText(String.valueOf(nodo.getValor()), x - 5, y + 5);
+        gc.fillText(String.valueOf(nodo.getValor()), x - 5, y + 5); // Escribe el valor del nodo
 
-        double nuevoXOffset = xOffset * 1.5;
-        double yOffset = 70;
+        double nuevoXOffset = 80; // Distancia horizontal entre nodos
+        double nuevoYOffset = yOffset * 0.7; // Factor de ajuste vertical entre niveles
 
         if (nodo.getIzquierdo() != null) {
-            gc.strokeLine(x, y, x - nuevoXOffset, y + yOffset);
-            dibujarNodo(gc, nodo.getIzquierdo(), x - nuevoXOffset, y + yOffset, nuevoXOffset / 2);
+            // Línea hacia el nodo izquierdo abajo (hacia la izquierda)
+            gc.strokeLine(x, y, x + nuevoXOffset, y - nuevoYOffset);
+            dibujarNodo(gc, nodo.getIzquierdo(), x + nuevoXOffset, y - nuevoYOffset, nuevoYOffset);
         }
 
         if (nodo.getDerecho() != null) {
-            gc.strokeLine(x, y, x + nuevoXOffset, y + yOffset);
-            dibujarNodo(gc, nodo.getDerecho(), x + nuevoXOffset, y + yOffset, nuevoXOffset / 2);
+            // Línea hacia el nodo derecho arriba (hacia la derecha)
+            gc.strokeLine(x, y, x + nuevoXOffset, y + nuevoYOffset);
+            dibujarNodo(gc, nodo.getDerecho(), x + nuevoXOffset, y + nuevoYOffset, nuevoYOffset);
         }
     }
 

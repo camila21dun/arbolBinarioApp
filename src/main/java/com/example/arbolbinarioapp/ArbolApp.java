@@ -17,10 +17,14 @@ public class ArbolApp extends Application {
         arbol = new ABB();
         dibujoArbol = new DibujoArbol(arbol);
 
-
+        // Controles para la parte izquierda de la ventana
         TextField inputValor = new TextField();
         inputValor.setPromptText("Inserte un valor");
         inputValor.setMaxWidth(150);
+
+        TextField inputExpresion = new TextField();
+        inputExpresion.setPromptText("Inserte expresión algebraica");
+        inputExpresion.setMaxWidth(200);
 
         Label alturaLabel = new Label("Altura del árbol: ");
         Label nivelLabel = new Label("Nivel del nodo: ");
@@ -41,8 +45,16 @@ public class ArbolApp extends Application {
             }
         });
 
+        Button btnConstruirExpresion = new Button("Construir Árbol de Expresión");
+        btnConstruirExpresion.setOnAction(e -> {
+            String expresion = inputExpresion.getText();
+            arbol.construirDesdeExpresion(expresion);
+            dibujoArbol.dibujarArbol();
+            inputExpresion.clear();
+        });
+
        // TextField inputNivelValor = new TextField();
-       // inputNivelValor.setPromptText("Valor para nivel");
+        //inputNivelValor.setPromptText("Valor para nivel");
         inputValor.setMaxWidth(150);
         Button btnNivel = new Button("Nivel del Nodo");
         btnNivel.setOnAction(e -> {
@@ -94,19 +106,19 @@ public class ArbolApp extends Application {
             recorridoAmplitudLabel.setText("Recorrido en amplitud: " + recorrido);
         });
 
-
-        VBox controles = new VBox(10, inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas, btnNivel, btnRecorridoAmplitud, alturaLabel, minimoLabel, hojasLabel, nivelLabel, recorridoAmplitudLabel);
+        // Colocar los controles en el VBox
+        VBox controles = new VBox(10, inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas,  btnNivel, btnRecorridoAmplitud, inputExpresion, btnConstruirExpresion, alturaLabel, minimoLabel, hojasLabel, nivelLabel, recorridoAmplitudLabel);
         controles.setPrefWidth(300);
 
-
+        // Configuración del StackPane para el DibujoArbol
         StackPane dibujoPane = new StackPane(dibujoArbol);
 
-
+        // Configuración del SplitPane
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().addAll(controles, dibujoPane);
-        splitPane.setDividerPositions(0.3);
+        splitPane.setDividerPositions(0.3); // 30% de ancho para controles
 
-
+        // Crear la escena
         Scene scene = new Scene(splitPane, 1300, 800);
         primaryStage.setTitle("Visualización de Árbol Binario de Búsqueda");
         primaryStage.setScene(scene);
