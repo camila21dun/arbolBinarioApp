@@ -9,16 +9,16 @@ public class DibujoArbol extends Canvas {
 
     public DibujoArbol(ABB arbol) {
         this.arbol = arbol;
-        this.setWidth(1000);  // Anchura ajustada para ver el árbol de manera horizontal
-        this.setHeight(800);  // Altura ajustada para espacio vertical entre nodos
+        this.setWidth(1000);  // Anchura ajustada para visualizar el árbol horizontalmente
+        this.setHeight(800);  // Altura suficiente para espacio vertical entre niveles
     }
 
     public void dibujarArbol() {
         GraphicsContext gc = getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
         if (arbol.getRaiz() != null) {
-            // Comenzar a dibujar desde la posición inicial en la izquierda
-            dibujarNodo(gc, arbol.getRaiz(), 30, getHeight() / 2, 70); // Ajusta 70 para espacio entre nodos en X
+            // Dibuja la raíz un poco a la izquierda de la mitad de la ventana
+            dibujarNodo(gc, arbol.getRaiz(), 30, getHeight() / 2, 70); // x inicial y altura media
         }
     }
 
@@ -31,29 +31,29 @@ public class DibujoArbol extends Canvas {
         gc.setFill(Color.BLACK);
         gc.fillText(String.valueOf(nodo.getValor()), x - 5, y + 5); // Escribe el valor del nodo
 
-        double nuevoXOffset = 80; // Distancia horizontal entre nodos
-        double nuevoYOffset = yOffset * 0.7; // Factor de ajuste vertical entre niveles
-
-        if (nodo.getIzquierdo() != null) {
-            // Línea hacia el nodo izquierdo abajo (hacia la izquierda)
-            gc.strokeLine(x, y, x + nuevoXOffset, y - nuevoYOffset);
-            dibujarNodo(gc, nodo.getIzquierdo(), x + nuevoXOffset, y - nuevoYOffset, nuevoYOffset);
-        }
+        double nuevoXOffset = 80; // Desplazamiento horizontal para cada nodo
+        double nuevoYOffset = yOffset * 0.7; // Ajuste vertical entre niveles
 
         if (nodo.getDerecho() != null) {
-            // Línea hacia el nodo derecho arriba (hacia la derecha)
+            // Nodo mayor hacia arriba
+            gc.strokeLine(x, y, x + nuevoXOffset, y - nuevoYOffset);
+            dibujarNodo(gc, nodo.getDerecho(), x + nuevoXOffset, y - nuevoYOffset, nuevoYOffset);
+        }
+
+        if (nodo.getIzquierdo() != null) {
+            // Nodo menor hacia abajo
             gc.strokeLine(x, y, x + nuevoXOffset, y + nuevoYOffset);
-            dibujarNodo(gc, nodo.getDerecho(), x + nuevoXOffset, y + nuevoYOffset, nuevoYOffset);
+            dibujarNodo(gc, nodo.getIzquierdo(), x + nuevoXOffset, y + nuevoYOffset, nuevoYOffset);
         }
     }
 
     private Color obtenerColorNodo(Nodo nodo) {
         if (nodo == arbol.getRaiz()) {
-            return Color.RED;
+            return Color.RED; // Color para el nodo raíz
         } else if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
-            return Color.GREEN;
+            return Color.GREEN; // Color para las hojas
         } else {
-            return Color.YELLOW;
+            return Color.YELLOW; // Color para nodos intermedios
         }
     }
 }
