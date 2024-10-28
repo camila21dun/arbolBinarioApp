@@ -98,6 +98,18 @@ public class ABB {
         if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) return 1;
         return contarHojasRecursivo(nodo.getIzquierdo()) + contarHojasRecursivo(nodo.getDerecho());
     }
+    public boolean sonIdenticos(Nodo otroRaiz) {
+        return sonIdenticosRecursivo(this.raiz, otroRaiz);
+    }
+
+    private boolean sonIdenticosRecursivo(Nodo nodo1, Nodo nodo2) {
+        if (nodo1 == null && nodo2 == null) return true;
+        if (nodo1 == null || nodo2 == null) return false;
+        return (nodo1.getValor() == nodo2.getValor()) &&
+                sonIdenticosRecursivo(nodo1.getIzquierdo(), nodo2.getIzquierdo()) &&
+                sonIdenticosRecursivo(nodo1.getDerecho(), nodo2.getDerecho());
+    }
+
 
     public int obtenerMinIterativo() {
         Nodo actual = raiz;

@@ -10,14 +10,16 @@ import javafx.stage.Stage;
 
 public class ArbolApp extends Application {
     private ABB arbol;
+    private ABB segundoArbol;
     private DibujoArbol dibujoArbol;
 
     @Override
     public void start(Stage primaryStage) {
         arbol = new ABB();
+        segundoArbol = new ABB();
         dibujoArbol = new DibujoArbol(arbol);
 
-        // Controles para la parte izquierda de la ventana
+
         TextField inputValor = new TextField();
         inputValor.setPromptText("Inserte un valor");
         inputValor.setMaxWidth(150);
@@ -25,6 +27,15 @@ public class ArbolApp extends Application {
         TextField inputExpresion = new TextField();
         inputExpresion.setPromptText("Inserte expresión algebraica");
         inputExpresion.setMaxWidth(200);
+
+        TextField inputExpresionSegundoArbol = new TextField();
+        inputExpresionSegundoArbol.setPromptText("Inserte segunda expresión");
+        inputExpresionSegundoArbol.setMaxWidth(200);
+
+
+        TextField inputValorSegundoArbol = new TextField();
+        inputValorSegundoArbol.setPromptText("Inserte valor en segundo árbol");
+        inputValorSegundoArbol.setMaxWidth(150);
 
         Label alturaLabel = new Label("Altura del árbol: ");
         Label nivelLabel = new Label("Nivel del nodo: ");
@@ -44,6 +55,18 @@ public class ArbolApp extends Application {
                 inputValor.setPromptText(" ");
             }
         });
+        Button btnInsertarSegundoArbol = new Button("Insertar en Segundo Árbol");
+        btnInsertarSegundoArbol.setOnAction(e -> {
+            try {
+                int valor = Integer.parseInt(inputValorSegundoArbol.getText());
+                segundoArbol.insertar(valor);  // Insertar valor en el segundo árbol
+                dibujoArbol.dibujarArbol();  // Opcional: podrías dibujar ambos árboles
+                inputValorSegundoArbol.clear();
+            } catch (NumberFormatException ex) {
+                inputValorSegundoArbol.clear();
+                inputValorSegundoArbol.setPromptText("Valor inválido");
+            }
+        });
 
         Button btnConstruirExpresion = new Button("Construir Árbol de Expresión");
         btnConstruirExpresion.setOnAction(e -> {
@@ -51,6 +74,20 @@ public class ArbolApp extends Application {
             arbol.construirDesdeExpresion(expresion);
             dibujoArbol.dibujarArbol();
             inputExpresion.clear();
+        });
+        Button btnConstruirSegundoArbol = new Button("Construir Segundo Árbol");
+        btnConstruirSegundoArbol.setOnAction(e -> {
+            String expresion = inputExpresionSegundoArbol.getText();
+            segundoArbol.construirDesdeExpresion(expresion);
+            dibujoArbol.dibujarArbol();
+            inputExpresionSegundoArbol.clear();
+        });
+
+        Button btnVerificarIdenticos = new Button("Verificar Si Son Idénticos");
+        Label resultadoIdenticosLabel = new Label();
+        btnVerificarIdenticos.setOnAction(e -> {
+            boolean sonIdenticos = arbol.sonIdenticos(segundoArbol.getRaiz());
+            resultadoIdenticosLabel.setText(sonIdenticos ? "Los árboles son idénticos" : "Los árboles no son idénticos");
         });
 
 
@@ -108,7 +145,10 @@ public class ArbolApp extends Application {
         });
 
 
-        VBox controles = new VBox(10, inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas,  btnNivel, btnRecorridoAmplitud, inputExpresion, btnConstruirExpresion, alturaLabel, minimoLabel, hojasLabel, nivelLabel, recorridoAmplitudLabel);
+        VBox controles = new VBox(10,inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas,
+                btnNivel, btnRecorridoAmplitud, inputExpresion, btnConstruirExpresion,
+                inputValorSegundoArbol, btnInsertarSegundoArbol, btnVerificarIdenticos,
+                resultadoIdenticosLabel);
         controles.setPrefWidth(300);
 
 
