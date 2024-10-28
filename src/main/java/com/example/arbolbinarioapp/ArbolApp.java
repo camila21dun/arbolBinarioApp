@@ -53,7 +53,7 @@ public class ArbolApp extends Application {
             inputExpresion.clear();
         });
 
-       // TextField inputNivelValor = new TextField();
+        // TextField inputNivelValor = new TextField();
         //inputNivelValor.setPromptText("Valor para nivel");
         inputValor.setMaxWidth(150);
         Button btnNivel = new Button("Nivel del Nodo");
@@ -116,7 +116,7 @@ public class ArbolApp extends Application {
 
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().addAll(controles, dibujoPane);
-        splitPane.setDividerPositions(0.3); 
+        splitPane.setDividerPositions(0.3);
 
 
         Scene scene = new Scene(splitPane, 1300, 800);
