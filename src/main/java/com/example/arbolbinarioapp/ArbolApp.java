@@ -145,10 +145,7 @@ public class ArbolApp extends Application {
         });
 
 
-        VBox controles = new VBox(10,inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas,
-                btnNivel, btnRecorridoAmplitud, inputExpresion, btnConstruirExpresion,
-                inputValorSegundoArbol, btnInsertarSegundoArbol, btnVerificarIdenticos,
-                resultadoIdenticosLabel);
+        VBox controles = new VBox(10,inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas,  btnNivel, btnRecorridoAmplitud, inputExpresion, btnConstruirExpresion, alturaLabel, minimoLabel, hojasLabel, nivelLabel, recorridoAmplitudLabel, btnVerificarIdenticos,btnInsertarSegundoArbol,inputValorSegundoArbol);
         controles.setPrefWidth(300);
 
 
