@@ -53,6 +53,7 @@ public class ArbolApp extends Application {
             inputExpresion.clear();
         });
 
+
         // TextField inputNivelValor = new TextField();
         //inputNivelValor.setPromptText("Valor para nivel");
         inputValor.setMaxWidth(150);

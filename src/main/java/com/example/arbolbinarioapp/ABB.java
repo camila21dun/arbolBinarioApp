@@ -122,17 +122,23 @@ public class ABB {
     }
 
     public void construirDesdeExpresion(String expresion) {
-        Stack<Nodo> pila = new Stack<>();
-        for (char ch : expresion.toCharArray()) {
-            if (Character.isLetterOrDigit(ch)) {
-                pila.push(new Nodo(ch));
-            } else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-                Nodo operador = new Nodo(ch);
-                operador.setDerecho(pila.pop());
-                operador.setIzquierdo(pila.pop());
-                pila.push(operador);
-            }
-        }
-        raiz = pila.isEmpty() ? null : pila.pop();
+        ExpresionParser parser = new ExpresionParser();
+        raiz = parser.construirArbol(expresion);
+    }
+
+    public void construirArbolEjemplo() {
+        Nodo mult = new Nodo('*');
+        mult.setIzquierdo(new Nodo('a'));
+        mult.setDerecho(new Nodo('b'));
+
+        Nodo div = new Nodo('/');
+        div.setIzquierdo(new Nodo('c'));
+        div.setDerecho(new Nodo('d'));
+
+        Nodo suma = new Nodo('+');
+        suma.setIzquierdo(mult);
+        suma.setDerecho(div);
+
+        raiz = suma;
     }
 }
