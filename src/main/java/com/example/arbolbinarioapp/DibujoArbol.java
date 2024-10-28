@@ -41,7 +41,7 @@ public class DibujoArbol extends Canvas {
         }
 
         if (nodo.getIzquierdo() != null) {
-          
+
             gc.strokeLine(x, y, x + nuevoXOffset, y + nuevoYOffset);
             dibujarNodo(gc, nodo.getIzquierdo(), x + nuevoXOffset, y + nuevoYOffset, nuevoYOffset);
         }
