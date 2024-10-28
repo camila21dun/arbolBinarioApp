@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 
 public class ArbolApp extends Application {
@@ -15,6 +17,7 @@ public class ArbolApp extends Application {
         arbol = new ABB();
         dibujoArbol = new DibujoArbol(arbol);
 
+
         TextField inputValor = new TextField();
         inputValor.setPromptText("Inserte un valor");
         inputValor.setMaxWidth(150);
@@ -23,7 +26,6 @@ public class ArbolApp extends Application {
         Label nivelLabel = new Label("Nivel del nodo: ");
         Label minimoLabel = new Label("Valor mínimo: ");
         Label hojasLabel = new Label("Número de hojas: ");
-
         Label recorridoAmplitudLabel = new Label("Recorrido en amplitud: ");
 
         Button btnInsertar = new Button("Insertar");
@@ -38,19 +40,20 @@ public class ArbolApp extends Application {
                 inputValor.setPromptText(" ");
             }
         });
-        TextField inputNivelValor = new TextField();
-        inputNivelValor.setPromptText("Valor para nivel");
-        inputNivelValor.setMaxWidth(150);
+
+       // TextField inputNivelValor = new TextField();
+       // inputNivelValor.setPromptText("Valor para nivel");
+        inputValor.setMaxWidth(150);
         Button btnNivel = new Button("Nivel del Nodo");
         btnNivel.setOnAction(e -> {
             try {
-                int valor = Integer.parseInt(inputNivelValor.getText());
+                int valor = Integer.parseInt(inputValor.getText());
                 int nivel = arbol.obtenerNivel(valor);
                 nivelLabel.setText("Nivel del nodo " + valor + ": " + (nivel != -1 ? nivel : "No encontrado"));
-                inputNivelValor.clear();
+                inputValor.clear();
             } catch (NumberFormatException ex) {
-                inputNivelValor.clear();
-                inputNivelValor.setPromptText("Valor inválido");
+                inputValor.clear();
+                inputValor.setPromptText("Valor inválido");
             }
         });
 
@@ -85,17 +88,26 @@ public class ArbolApp extends Application {
             hojasLabel.setText("Número de hojas: " + hojas);
         });
 
-
-
         Button btnRecorridoAmplitud = new Button("Recorrido en Amplitud");
         btnRecorridoAmplitud.setOnAction(e -> {
-            String recorrido = arbol.recorridoAmplitud(); // Modificado para devolver String
+            String recorrido = arbol.recorridoAmplitud();
             recorridoAmplitudLabel.setText("Recorrido en amplitud: " + recorrido);
         });
 
-        VBox root = new VBox(10, inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas, inputNivelValor, btnNivel, btnRecorridoAmplitud, alturaLabel, minimoLabel, hojasLabel, nivelLabel, recorridoAmplitudLabel, dibujoArbol);
-        Scene scene = new Scene(root, 1300, 800);
 
+        VBox controles = new VBox(10, inputValor, btnInsertar, btnEliminar, btnAltura, btnMinimo, btnHojas, btnNivel, btnRecorridoAmplitud, alturaLabel, minimoLabel, hojasLabel, nivelLabel, recorridoAmplitudLabel);
+        controles.setPrefWidth(300);
+
+
+        StackPane dibujoPane = new StackPane(dibujoArbol);
+
+
+        SplitPane splitPane = new SplitPane();
+        splitPane.getItems().addAll(controles, dibujoPane);
+        splitPane.setDividerPositions(0.3);
+
+
+        Scene scene = new Scene(splitPane, 1300, 800);
         primaryStage.setTitle("Visualización de Árbol Binario de Búsqueda");
         primaryStage.setScene(scene);
         primaryStage.show();
